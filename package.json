@@ -1,5 +1,5 @@
 {
-  "description": "GUI for easy control, observation, and analysis of data from the LCP firmware. Built using node.js, using React.js and TypeScript.",
+  "description": "GUI Inertial Navigation System (GINS)",
   "keywords": [
     "electron",
     "boilerplate",
@@ -11,19 +11,19 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/Uakronauts/LCP-GUI",
+  "homepage": "https://github.com/RRINS/GINS",
   "bugs": {
-    "url": "https://github.com/Uakronauts/LCP-GUI/issues"
+    "url": "https://github.com/RRINS/GINS/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Uakronauts/LCP-GUI.git"
+    "url": "git+https://github.com/RRINS/GINS.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Akronauts Rocket Design Team",
-    "email": "uakronauts@gmail.com",
-    "url": "https://akronauts.org"
+    "name": "Aaron Hoffman",
+    "email": "ajh269@uakron.edu",
+    "url": "https://github.com/aahoffman23"
   },
   "contributors": [
     {
@@ -171,8 +171,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "LCP-GUI",
-    "appId": "lcp.gui",
+    "productName": "GINS",
+    "appId": "g.ins",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -230,8 +230,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "Uakronauts",
-      "repo": "LCP-GUI"
+      "owner": "RRINS",
+      "repo": "GINS"
     }
   },
   "devEngines": {
