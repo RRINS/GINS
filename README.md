@@ -1,5 +1,5 @@
 # GINS
-GUI Inertial Navigation System
+GUI Inertial Navigation System for Akron senior design
 
 # Development Cycle/Tooling
 ## Development Guide
