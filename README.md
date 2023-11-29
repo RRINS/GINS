@@ -1,3 +1,6 @@
+# GINS
+GUI Inertial Navigation System
+
 # Development Cycle/Tooling
 ## Development Guide
 _All developers are expected to follow the same outlined development cycle._
