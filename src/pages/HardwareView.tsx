@@ -1,6 +1,5 @@
 import { mergeStyles } from '@fluentui/merge-styles';
 import { DataContext } from 'components/DataProvider/DataContext';
-import { IDataModel } from 'models/dataModel';
 import { useContext } from 'react';
 
 const helloStyle = mergeStyles({
@@ -9,12 +8,6 @@ const helloStyle = mergeStyles({
 
 export const HardwareView = () => {
   const serialData = useContext(DataContext);
-
-  const testData: IDataModel = {
-    accelX: 2,
-    accelY: 2,
-    accelZ: 2,
-  };
 
   return (
     <>
