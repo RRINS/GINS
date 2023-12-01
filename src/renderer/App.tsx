@@ -1,6 +1,11 @@
 // Driver for displaying something.
 // In general, all components should be in organized directories
 
-import { Hello } from 'components/Hello/Hello';
+import { HardwareView } from 'pages/HardwareView';
 
-export const App = () => <Hello />;
+export const App = () => (
+  <>
+    Test
+    <HardwareView />
+  </>
+);
