@@ -3,7 +3,14 @@ const { autoUpdater } = require('electron-updater');
 
 let projTitle = 'GINS';
 
-let mainWindow;
+const electronReload = require('electron-reload');
+electronReload(__dirname);
+// renderer.js
+if (module.hot) {
+  module.hot.accept();
+}
+
+let mainWindow = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -16,9 +23,10 @@ function createWindow() {
     },
     fullscreen: false, 
     autoHideMenuBar: true,      // console is CTRL+SHIFT+i, show menu is ALT
-    title: projTitle
+    title: projTitle,
+    icon: 'resources/gins.ico',
   })
-  mainWindow.loadFile('src/GUI/index/index.html'),
+  mainWindow.loadFile('src/GUI/index.html'),
 
   mainWindow.on('closed', function() {
     mainWindow = null;
