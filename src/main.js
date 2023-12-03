@@ -3,12 +3,17 @@ const { autoUpdater } = require('electron-updater');
 
 let projTitle = 'GINS';
 
-const electronReload = require('electron-reload');
-electronReload(__dirname);
-// renderer.js
-if (module.hot) {
-  module.hot.accept();
+try {
+  const electronReload = require('electron-reload');
+  electronReload(__dirname);
+  // renderer.js
+  if (module.hot) {
+    module.hot.accept();
+  }
+} catch(err) {
+  console.log("Not development mode");
 }
+
 
 let mainWindow = null;
 

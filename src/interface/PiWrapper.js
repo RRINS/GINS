@@ -20,7 +20,7 @@ class PiWrapper extends EventEmitter
 
     this.client = new net.Socket();
     this.client.on('error', (error) => {
-      // console.log("error occured", error);
+      console.log("Error Occured:", error);
       this.client.destroy();
       this.connectionStatus = connectionStates.Disconnected;
     });
