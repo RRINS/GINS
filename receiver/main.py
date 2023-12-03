@@ -10,24 +10,30 @@ ser = serial.Serial(
     baudrate=9600,
     timeout=1,
 )
+print("test")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    # s.setblocking(False)
     s.bind((HOST, PORT))
-    while True:
-        s.listen()
-        conn, addr = s.accept()
-        print("Setup done")
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                data = ser.readline()
-                if data:
-                    print(f"Received: {data}")
-                    conn.send(data)
-                else:
-                    conn.send(b"Nothin");
-                        
+    s.listen()
+    conn, addr = s.accept()
+    conn.setblocking(False)
+    
+    print("Setup done")
+    with conn:
+        print(f"Connected by {addr}")
+        while True:
+            data = ser.readline()
+            if data:
+                print(f"Received: {data}")
+                conn.sendall(data)
+            else:
+                print(b"Nothin");
+                conn.sendall(b"Nothin");
+                
+            print("balls")
+            try:
                 clientData = conn.recv(1024)
-                if clientData != "":
-                    conn.sendall(clientData)
-                    print(clientData)
+                conn.sendall(clientData)
+            except BlockingIOError:
+                print(b"Nothing from client")
