@@ -1,6 +1,6 @@
-productName: Pallet
-executableName: Pallet
-appId: com.electron.Pallet
+productName: GINS
+executableName: GINS
+appId: com.electron.GINS
 extraResources: []
 asar: true
 
@@ -8,6 +8,6 @@ win:
   requestedExecutionLevel: asInvoker
   publish: 
     provider: github
-    owner: Uakronauts
-    repo: Chroma-Pallet
+    owner: RRINS
+    repo: GINS
     token: YOUR_TOKEN_HERE

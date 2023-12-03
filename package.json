@@ -1,7 +1,7 @@
 {
-  "name": "chroma-pallet",
+  "name": "gins",
   "version": "0.5.0",
-  "description": "Ground station GUI for Chroma",
+  "description": "GUI Inertial Navigation System",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -12,11 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Uakronauts/Chroma-Pallet.git"
+    "url": "git+https://github.com/RRINS/GINS.git"
   },
   "devDependencies": {
     "electron": "^12.2.3",
-    "electron-builder": "^22.13.1"
+    "electron-builder": "^22.13.1",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-reloader": "^1.2.3"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
@@ -29,7 +31,7 @@
   "author": "Akronauts Rocket Design Team",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Uakronauts/Chroma-Pallet/issues"
+    "url": "https://github.com/RRINS/GINS/issues"
   },
-  "homepage": "https://github.com/Uakronauts/Chroma-Pallet#readme"
+  "homepage": "https://github.com/RRINS/GINS#readme"
 }
