@@ -17,7 +17,7 @@ class PiWrapper extends EventEmitter
 
     this.client.on('data', (data) => {
       console.log('Received: ' + data);
-      this.client.destroy(); // kill client after server's response
+      //this.client.destroy(); // kill client after server's response
     });
 
     this.client.on('close', () => {
