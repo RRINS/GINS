@@ -5,6 +5,7 @@ extraResources: []
 asar: true
 
 win:
+  icon: resources/gins.ico
   requestedExecutionLevel: asInvoker
   publish: 
     provider: github

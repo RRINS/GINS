@@ -24,7 +24,6 @@
     "electron-updater": "^4.3.9",
     "jquery": "^3.6.1",
     "plotly.js-dist": "^2.16.2",
-    "serialport": "^10.5.0",
     "three": "^0.147.0"
   },
   "author": "Akronauts Rocket Design Team",
