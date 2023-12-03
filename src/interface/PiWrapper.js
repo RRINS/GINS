@@ -9,29 +9,19 @@ class PiWrapper extends EventEmitter
   {
     super() // Call ctor of superclass (EventEmitter)
 
-    this.server = net.createServer();
-
-    this.server.listen(9000, '169.254.174.132', () => {    
-      console.log('server listening to %j', this.server.address());  
+    this.client = new net.Socket();
+    this.client.connect(9001, '169.254.26.252', () => {
+      console.log('Connected');
+      this.client.write('Hello, server! Love, Client.');
     });
 
-    this.server.on('connection', (conn) => {
-      var remoteAddress = conn.remoteAddress + ':' + conn.remotePort;  
-      console.log('new client connection from %s', remoteAddress);
+    this.client.on('data', (data) => {
+      console.log('Received: ' + data);
+      this.client.destroy(); // kill client after server's response
+    });
 
-      conn.on('data', onConnData);  
-      conn.once('close', onConnClose);  
-      conn.on('error', onConnError);
-      function onConnData(d) {  
-        console.log('connection data from %s: %s', remoteAddress, Buffer(d).toString()); 
-        conn.write(d);  
-      }
-      function onConnClose() {  
-        console.log('connection from %s closed', remoteAddress);  
-      }
-      function onConnError(err) {  
-        console.log('Connection %s error: %s', remoteAddress, err.message);  
-      } 
+    this.client.on('close', () => {
+      console.log('Connection closed');
     });
 
     // this.init();
