@@ -1,25 +1,40 @@
 //Purpose: Set up JavaScript to run the Python scripts to interface with the Labjack
 
 const EventEmitter = require('events');
+const net = require('net');
 
 class PiWrapper extends EventEmitter
 {
-  constructor(fullPath, shellOptions)  //intialize the python script and message event listeners
+  constructor()  //intialize the python script and message event listeners
   {
     super() // Call ctor of superclass (EventEmitter)
 
-    this.script = fullPath;
-    this.options = shellOptions;
+    this.server = net.createServer();
 
-    this.connect = this.connectSmart.bind(this);
-    this.disconnect = this.disconnectSmart.bind(this);
-    this.destroy = this.destroy.bind(this);
+    this.server.listen(9000, '169.254.174.132', () => {    
+      console.log('server listening to %j', this.server.address());  
+    });
 
-    this.incomingData;
+    this.server.on('connection', (conn) => {
+      var remoteAddress = conn.remoteAddress + ':' + conn.remotePort;  
+      console.log('new client connection from %s', remoteAddress);
 
-    this.connection = -1; //undetermined disconnected state
-    
-    this.init();
+      conn.on('data', onConnData);  
+      conn.once('close', onConnClose);  
+      conn.on('error', onConnError);
+      function onConnData(d) {  
+        console.log('connection data from %s: %s', remoteAddress, Buffer(d).toString()); 
+        conn.write(d);  
+      }
+      function onConnClose() {  
+        console.log('connection from %s closed', remoteAddress);  
+      }
+      function onConnError(err) {  
+        console.log('Connection %s error: %s', remoteAddress, err.message);  
+      } 
+    });
+
+    // this.init();
   }
 
   /**
@@ -67,5 +82,5 @@ class PiWrapper extends EventEmitter
 }
 
 module.exports = {
-  LJWrapper:LJWrapper
+  PiWrapper:PiWrapper
 };
