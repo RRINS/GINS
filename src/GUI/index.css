@@ -12,6 +12,15 @@ body {
   margin: 0 1vw;
 }
 
+.dygraph-axis-label.dygraph-axis-label-x{
+  color:#dedede;
+}
+
+.dygraph-axis-label.dygraph-axis-label-y{
+  color:#dedede;
+}
+
+
 #versionNum {
   position: absolute;
   bottom: 0.5vh;
