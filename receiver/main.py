@@ -3,7 +3,7 @@ import serial
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("169.254.174.132", 9000))
+s.connect(("169.254.57.66", 9000))
 
 ser = serial.Serial(
     port='/dev/ttyS0',

@@ -1,13 +1,20 @@
 import socket
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+HOST = "169.254.26.252"
+PORT = 9001
+print("Test")
 
-s.connect(("169.254.174.132", 9000))
-
-s.send(b"Hello, world!")
-
-data = s.recv(1024)
-
-print(data)
-
-s.close()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+	s.bind((HOST, PORT))
+	while True:
+		s.listen()
+		conn, addr = s.accept()
+		print("Setup done")
+		with conn:
+			print(f"Connected by {addr}")
+			while True:
+				data = conn.recv(1024)
+				print(data)
+				if not data:
+					break
+				conn.sendall(data)
