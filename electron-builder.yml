@@ -1,0 +1,14 @@
+productName: GINS
+executableName: GINS
+appId: com.electron.GINS
+extraResources: []
+asar: true
+
+win:
+  icon: resources/gins.ico
+  requestedExecutionLevel: asInvoker
+  publish: 
+    provider: github
+    owner: RRINS
+    repo: GINS
+    token: YOUR_TOKEN_HERE
