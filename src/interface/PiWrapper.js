@@ -45,14 +45,12 @@ class PiWrapper extends EventEmitter
           self.client.write('Hello, server! Love, Client.');
 
           self.client.on('data', (data) => {
-            console.log('Received: ' + data);
-      
+            // console.log('Received: ' + data);
             try {
               let incomingData = JSON.parse(data);
               self.emit('incomingData', incomingData);
             } catch(err) {
-              // self.emit('message', data);
-              console.log(data);
+              self.emit('message', data);
             }
           });
       

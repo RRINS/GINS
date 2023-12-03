@@ -27,7 +27,7 @@ function createWindow() {
       enableRemoteModule: true
     },
     fullscreen: false, 
-    autoHideMenuBar: true,      // console is CTRL+SHIFT+i, show menu is ALT
+    autoHideMenuBar: false,      // console is CTRL+SHIFT+i, show menu is ALT
     title: projTitle,
     icon: 'resources/gins.ico',
   })
