@@ -3,6 +3,15 @@
 const EventEmitter = require('events');
 const net = require('net');
 
+let connectionStates = {
+  Disconnected: 0,
+  Connected: 1,
+  Attempting_Connection: 2,
+  Attempting_Disconnection: 3,
+
+  Undefined: -1,
+}
+
 class PiWrapper extends EventEmitter
 {
   constructor()  //intialize the python script and message event listeners
@@ -10,65 +19,71 @@ class PiWrapper extends EventEmitter
     super() // Call ctor of superclass (EventEmitter)
 
     this.client = new net.Socket();
-    this.client.connect(9001, '169.254.26.252', () => {
-      console.log('Connected');
-      this.client.write('Hello, server! Love, Client.');
+    this.client.on('error', (error) => {
+      // console.log("error occured", error);
+      this.client.destroy();
+      this.connectionStatus = connectionStates.Disconnected;
     });
 
-    this.client.on('data', (data) => {
-      console.log('Received: ' + data);
-      //this.client.destroy(); // kill client after server's response
-    });
+    this.connect = this.connect.bind(this);
+    this.disconnect = this.disconnect.bind(this);
+    this.connectionStatus = connectionStates.Disconnected;
 
-    this.client.on('close', () => {
-      console.log('Connection closed');
-    });
-
-    // this.init();
+    this.connect();
   }
 
-  /**
-   * @deprecated
-   * 
-   * Not depreciated, but should not be used
-   * publicly. Is called in the constructor, more calls
-   * will result in undesirable behavior.
-   */
-  init()
+  connect()
   {
     let self = this;
 
-    self.pyshell = new PythonShell(this.script, this.options);   //initalize using the full script path and options
+    if (self.connectionStatus !== connectionStates.Connected)
+    {
+      self.connectionStatus = connectionStates.Attempting_Connection;
+      self.client.connect(9001, '169.254.26.252', () => {
+          console.log('Connected');
+          self.connectionStatus = connectionStates.Connected;
+          self.client.write('Hello, server! Love, Client.');
 
-    //When Python sends a message using "print()"
-    self.pyshell.on('message', function(message) {
-      console.log("Raw Message:", message);
-
-      try {
-        self.incomingData = JSON.parse(message.split("\'").join('\"')); //replace single quotes with doubles so JSON can be parsed properly
-
-        if(self.incomingData["CONNECTION"] != undefined){
-          self.connection = self.incomingData["CONNECTION"];  //if incoming data has a connection parameter
-          self.emit('connectionUpdate', self.connection, self.incomingData["HANDLE"], self.incomingData["INFO"]);     // Allow external processes to react to connection state.
-        }
-
-        self.emit('message', self.incomingData);  // Pass JSON-formatted data to driver
+          self.client.on('data', (data) => {
+            console.log('Received: ' + data);
       
-      } catch (err) {
-        //console.log(`Error: ${err} \nRaw Data: ${message}`); // In case the Python Code spits out an error instead of JSON Formatted stuff.
-      }
-    });
-
-    //If script throws an error
-    self.pyshell.on('stderr', function(stderr) {
-      console.log(stderr);
-      self.connection = connectionStates.Undefined;
-      self.emit("connectionUpdate", self.connection);
-
-      self.emit('stderr', stderr);  // Pass pyshell err to Driver
-    });
+            try {
+              let incomingData = JSON.parse(data);
+              self.emit('incomingData', incomingData);
+            } catch(err) {
+              // self.emit('message', data);
+              console.log(data);
+            }
+          });
+      
+          self.client.on('close', () => {
+            console.log('Connection closed');
+            self.connectionStatus = connectionStates.Disconnected;
+            self.client.destroy();
+          });
+      });
+    }
+    else
+    {
+      console.log("Already connected");
+    }
   }
 
+  disconnect()
+  {
+    let self = this;
+
+    if (self.connectionStatus !== connectionStates.Disconnected)
+    {
+      self.connectionStatus = connectionStates.Attempting_Disconnection;
+      try {
+        self.client.destroy();
+        self.connectionStatus = connectionStates.Disconnected;
+      } catch (err) {
+        self.connectionStatus = connectionStates.Undefined;
+      }
+    }
+  }
 }
 
 module.exports = {
