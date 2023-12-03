@@ -1,0 +1,11 @@
+body {
+  font-family: 'Segoe UI';
+  background-color: #202020;
+}
+
+#versionNum {
+  position: absolute;
+  bottom: 0.5vh;
+  right: 1vw;
+  color: #dedede;
+}
