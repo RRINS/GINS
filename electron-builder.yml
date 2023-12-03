@@ -1,0 +1,13 @@
+productName: Pallet
+executableName: Pallet
+appId: com.electron.Pallet
+extraResources: []
+asar: true
+
+win:
+  requestedExecutionLevel: asInvoker
+  publish: 
+    provider: github
+    owner: Uakronauts
+    repo: Chroma-Pallet
+    token: YOUR_TOKEN_HERE

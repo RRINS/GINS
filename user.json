@@ -1,0 +1,28 @@
+{
+  "Calibration": {
+    "PressureAGL": 1234.5
+  },
+  "Plotting": {
+    "Altitude": {
+      "MaxPoints": 300
+    },
+    "Accel": {
+      "MaxPoints": 50
+    },
+    "Temp": {
+      "MaxPoints": 50
+    },
+    "Sats": {
+      "MaxPoints": 20
+    },
+    "Uptime": {
+      "MaxPoints": 30
+    }
+  },
+  "Connection": {
+    "Type": "USB",
+    "Timeout": 5000,
+    "Interval": 500
+  },
+  "outputDirectory": "C:\\Users\\dmtrm\\OneDrive\\Desktop\\Akronauts\\Avionics Shit\\E3 Launch Data"
+}
