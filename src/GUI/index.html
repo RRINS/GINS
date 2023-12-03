@@ -9,12 +9,13 @@
         <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
         <script> window.jQuery = window.$ = require('jquery'); //fixes bootstrap???? </script>
         <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-
-        <script src="../../node_modules/plotly.js-dist/plotly.js"></script>
     </head>
 	<body>
         <!-- Accelerometer Data View -->
         <h3 class="dataDisplayText">Acceleration:</h3>
+        <div id="accelDataGraph">
+            <p>test</p>
+        </div>
         <div id="accelDataView" class="dataView">
             <p class="dataDisplayText">X: <span id="accelX">NA</span></p>
             <p class="dataDisplayText">Y: <span id="accelY">NA</span></p>
