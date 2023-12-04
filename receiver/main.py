@@ -21,6 +21,7 @@ while True:
         
         try:
             print("Client connected")
+            ser.reset_input_buffer()
             with conn:
                 print(f"Connected by {addr}")
                 while True:
