@@ -12,6 +12,11 @@ Pi.addListener('incomingData', (incomingData) => {
   appendData(incomingData);
 });
 
+Pi.addListener('connectionChange', (connectionStatus) => {
+  console.log(connectionStatus);
+  document.getElementById('connectionStatusText').innerText = connectionStatus;
+});
+
 createGraphs();
 
 // Pi.addListener('message', (message) => {

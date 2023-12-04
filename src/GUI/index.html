@@ -11,30 +11,35 @@
         <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     </head>
 	<body>
+        <h5 class="displayText">Status: <span id="connectionStatusText">Unknown</span></h5>
+
+        <br>
+        <br>
+
         <!-- Accelerometer Data View -->
         <div id="dataDisplay">
             <div id="accelerometerData">
-                <h3 class="dataDisplayText">Acceleration:</h3>
+                <h3 class="displayText">Acceleration:</h3>
                 <div class="graphWrapper">
                     <div id="accelDataGraph" class="dygraphChart"></div>
                 </div>
                 <div id="accelDataView" class="dataView">
-                    <p class="dataDisplayText">X: <span id="accelX">NA</span></p>
-                    <p class="dataDisplayText">Y: <span id="accelY">NA</span></p>
-                    <p class="dataDisplayText">Z: <span id="accelZ">NA</span></p>
+                    <p class="displayText">X: <span id="accelX">NA</span></p>
+                    <p class="displayText">Y: <span id="accelY">NA</span></p>
+                    <p class="displayText">Z: <span id="accelZ">NA</span></p>
                 </div>
             </div>
 
             <!-- Gyroscope Data View -->
             <div id="gyroscopeData">
-                <h3 class="dataDisplayText">Rotational Velocity:</h3>
+                <h3 class="displayText">Rotational Velocity:</h3>
                 <div class="graphWrapper">
                     <div id="gyroDataGraph" class="dygraphChart"></div>
                 </div>
                 <div id="gyroDataView" class="dataView">
-                    <p class="dataDisplayText">X: <span id="gyroX">NA</span></p>
-                    <p class="dataDisplayText">Y: <span id="gyroY">NA</span></p>
-                    <p class="dataDisplayText">Z: <span id="gyroZ">NA</span></p>
+                    <p class="displayText">X: <span id="gyroX">NA</span></p>
+                    <p class="displayText">Y: <span id="gyroY">NA</span></p>
+                    <p class="displayText">Z: <span id="gyroZ">NA</span></p>
                 </div>
             </div>
         </div>

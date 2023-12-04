@@ -9,7 +9,7 @@ let connectionStates = {
   Attempting_Connection: 2,
   Attempting_Disconnection: 3,
 
-  Undefined: -1,
+  Undefined: 4,
 }
 
 class PiWrapper extends EventEmitter
@@ -22,12 +22,13 @@ class PiWrapper extends EventEmitter
     this.client.on('error', (error) => {
       console.log("Error Occured:", error);
       this.client.destroy();
-      this.connectionStatus = connectionStates.Disconnected;
+      this.setConnection(connectionStates.Disconnected);
     });
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
-    this.connectionStatus = connectionStates.Disconnected;
+    this.setConnection = this.setConnection.bind(this);
+    this.setConnection(connectionStates.Disconnected);
 
     this.connect();
   }
@@ -38,10 +39,9 @@ class PiWrapper extends EventEmitter
 
     if (self.connectionStatus !== connectionStates.Connected)
     {
-      self.connectionStatus = connectionStates.Attempting_Connection;
+      self.setConnection(connectionStates.Attempting_Connection);
       self.client.connect(9001, '169.254.26.252', () => {
-          console.log('Connected');
-          self.connectionStatus = connectionStates.Connected;
+          self.setConnection(connectionStates.Connected);
           self.client.write('Hello, server! Love, Client.');
 
           self.client.on('data', (data) => {
@@ -56,7 +56,7 @@ class PiWrapper extends EventEmitter
       
           self.client.on('close', () => {
             console.log('Connection closed');
-            self.connectionStatus = connectionStates.Disconnected;
+            self.setConnection(connectionStates.Disconnected);
             self.client.destroy();
           });
       });
@@ -73,14 +73,23 @@ class PiWrapper extends EventEmitter
 
     if (self.connectionStatus !== connectionStates.Disconnected)
     {
-      self.connectionStatus = connectionStates.Attempting_Disconnection;
+      self.setConnection(connectionStates.Attempting_Disconnection);
       try {
         self.client.destroy();
-        self.connectionStatus = connectionStates.Disconnected;
+        self.setConnection(connectionStates.Disconnected);
       } catch (err) {
-        self.connectionStatus = connectionStates.Undefined;
+        self.setConnection(connectionStates.Undefined);
       }
     }
+  }
+
+  setConnection(connectionState)
+  {
+    let self = this;
+
+    self.connectionStatus = connectionState;
+    const connectionStrings = Object.keys(connectionStates);
+    self.emit('connectionChange', connectionStrings[connectionState]);
   }
 }
 

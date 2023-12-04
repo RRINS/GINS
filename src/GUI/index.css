@@ -6,13 +6,14 @@ body {
 #dataDisplay {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .dataView {
   display: flex;
 }
 
-.dataDisplayText {
+.displayText {
   color:#dedede;
   margin: 0 1vw;
 }
