@@ -3,6 +3,26 @@ body {
   background-color: #202020;
 }
 
+#connectionDisplay {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#connectionButton {
+  border: none;
+  border-radius: 2px;
+  color: #dedede;
+}
+
+.connect {
+  background-color: rgb(20, 133, 28);
+}
+
+.disconnect {
+  background-color: rgb(133, 20, 20);
+}
+
 #dataDisplay {
   display: flex;
   flex-direction: row;
@@ -41,7 +61,6 @@ body {
 .dygraph-axis-label.dygraph-axis-label-y{
   color:#dedede;
 }
-
 
 #versionNum {
   position: absolute;

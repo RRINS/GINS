@@ -3,7 +3,7 @@
 const EventEmitter = require('events');
 const net = require('net');
 
-let connectionStates = {
+const connectionStates = {
   Disconnected: 0,
   Connected: 1,
   Attempting_Connection: 2,
@@ -24,6 +24,18 @@ class PiWrapper extends EventEmitter
       this.client.destroy();
       this.setConnection(connectionStates.Disconnected);
     });
+    this.client.on('data', (data) => {
+      // console.log('Received: ' + data);
+      try {
+        let incomingData = JSON.parse(data);
+        this.emit('incomingData', incomingData);
+      } catch(err) {
+        this.emit('message', data);
+      }
+    });
+    this.client.on('close', () => {
+      this.client.destroy();
+    });
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -43,22 +55,6 @@ class PiWrapper extends EventEmitter
       self.client.connect(9001, '169.254.26.252', () => {
           self.setConnection(connectionStates.Connected);
           self.client.write('Hello, server! Love, Client.');
-
-          self.client.on('data', (data) => {
-            // console.log('Received: ' + data);
-            try {
-              let incomingData = JSON.parse(data);
-              self.emit('incomingData', incomingData);
-            } catch(err) {
-              self.emit('message', data);
-            }
-          });
-      
-          self.client.on('close', () => {
-            console.log('Connection closed');
-            self.setConnection(connectionStates.Disconnected);
-            self.client.destroy();
-          });
       });
     }
     else
@@ -94,5 +90,6 @@ class PiWrapper extends EventEmitter
 }
 
 module.exports = {
-  PiWrapper:PiWrapper
+  PiWrapper:PiWrapper,
+  connectionStates:connectionStates
 };
