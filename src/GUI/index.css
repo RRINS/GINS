@@ -3,6 +3,11 @@ body {
   background-color: #202020;
 }
 
+#dataDisplay {
+  display: flex;
+  flex-direction: row;
+}
+
 .dataView {
   display: flex;
 }
@@ -14,7 +19,7 @@ body {
 
 .graphWrapper {
   position: relative;
-  width: 60vw;
+  width: 45vw;
   height: 30vh;
 }
 
