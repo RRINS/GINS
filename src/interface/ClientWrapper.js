@@ -16,7 +16,7 @@ const commandKeys = {
   PrintDataDir: "PrintDataDir"
 }
 
-class PiWrapper extends EventEmitter
+class ClientWrapper extends EventEmitter
 {
   constructor()  //intialize the python script and message event listeners
   {
@@ -111,7 +111,7 @@ class PiWrapper extends EventEmitter
 }
 
 module.exports = {
-  PiWrapper:PiWrapper,
+  ClientWrapper:ClientWrapper,
   connectionStates:connectionStates,
   commandKeys:commandKeys
 };

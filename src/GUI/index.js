@@ -1,9 +1,9 @@
 const { displayHandler } = require("../graphing/displayHandler");
 const { createGraphs, appendData } = require("../graphing/graphHandler");
-const { PiWrapper, connectionStates, commandKeys } = require("../interface/PiWrapper");
+const { ClientWrapper, connectionStates, commandKeys } = require("../interface/ClientWrapper");
 
 
-const Pi = new PiWrapper();
+const Pi = new ClientWrapper();
 Pi.addListener('incomingData', (incomingData) => {
   // console.log("Heard:", incomingData);
   displayHandler("accel", incomingData);
