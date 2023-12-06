@@ -52,6 +52,9 @@ while True:
                         if clientText == "PrintDataDir":
                             message = "{{'filenames': {0} }}".format(fileList)
                             conn.sendall(message.encode('utf8'))
+                            
+                        elif clientText == "":
+                            break;
                         
                     except BlockingIOError:
                         print(b"Nothing from client")
