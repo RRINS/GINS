@@ -1,4 +1,4 @@
-import time
+from time import time, ctime
 import serial
 import socket
 
@@ -10,6 +10,11 @@ ser = serial.Serial(
     baudrate=9600,
     timeout=1,
 )
+
+FILENAME = "data/" + ctime(time()) + ".txt"
+print(FILENAME)
+file = open(FILENAME, "x")
+
 while True:
     print("Waiting for client...")
 
@@ -29,6 +34,7 @@ while True:
                     if data:
                         print(f"Received: {data}")
                         conn.sendall(data)
+                        file.write(data.decode('utf8'))
                     else:
                         print(b"Nothin");
                         
@@ -37,9 +43,9 @@ while True:
                         conn.sendall(clientData)
                     except BlockingIOError:
                         print(b"Nothing from client")
-                    except BrokenPipeError:
-                        print(b"Client disconnected")
+                    except BrokenPipeError as e:
+                        print(b"Client disconnected", str(e))
                     except:
                         print(b"Catch all")
-        except:
-            print("Client disconnected")
+        except Exception as e:
+            print("Client disconnected", str(e))
