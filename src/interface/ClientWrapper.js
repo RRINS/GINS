@@ -38,6 +38,8 @@ class ClientWrapper extends EventEmitter
       } catch(err) {
         // console.log(err);
         this.emit('message', dataString);
+
+        return;
       }
 
       if(incomingData.command !== undefined) {
