@@ -15,7 +15,6 @@ ser = serial.Serial(
 DATADIR = "data/"
 FILENAME = DATADIR + ctime(time()) + ".txt"
 print(FILENAME)
-fileList = os.listdir(DATADIR);
 
 while True:
     print("Waiting for client...")
@@ -50,6 +49,7 @@ while True:
                         print(clientText)
                         
                         if clientText == "PrintDataDir":
+                            fileList = os.listdir(DATADIR);
                             message = "{{ 'command': '{0}','filenames': {1} }}".format(clientText, fileList)
                             conn.sendall(message.encode('utf8'))
                             
