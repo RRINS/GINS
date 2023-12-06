@@ -1,6 +1,7 @@
 from time import time, ctime
 import serial
 import socket
+import os
 
 HOST = "169.254.26.252"
 PORT = 9001
@@ -11,8 +12,10 @@ ser = serial.Serial(
     timeout=1,
 )
 
-FILENAME = "data/" + ctime(time()) + ".txt"
+DATADIR = "data/"
+FILENAME = DATADIR + ctime(time()) + ".txt"
 print(FILENAME)
+fileList = os.listdir(DATADIR);
 file = open(FILENAME, "x")
 
 while True:
@@ -35,17 +38,24 @@ while True:
                         print(f"Received: {data}")
                         conn.sendall(data)
                         file.write(data.decode('utf8'))
-                    else:
-                        print(b"Nothin");
                         
                     try:
                         clientData = conn.recv(1024)
-                        conn.sendall(clientData)
+                        #conn.sendall(clientData)
+                        print(clientData) 
+                        
+                        clientText = clientData.decode('utf-8')
+                        print(clientText)
+                        
+                        if clientText == "PrintDataDir":
+                            message = "{{'filenames': {0} }}".format(fileList)
+                            conn.sendall(message.encode('utf8'))
+                        
                     except BlockingIOError:
                         print(b"Nothing from client")
                     except BrokenPipeError as e:
                         print(b"Client disconnected", str(e))
-                    except:
-                        print(b"Catch all")
+                    except Exception as e:
+                        print(b"Catch all", str(e))
         except Exception as e:
             print("Client disconnected", str(e))
