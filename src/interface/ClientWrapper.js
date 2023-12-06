@@ -13,7 +13,8 @@ const connectionStates = {
 }
 
 const commandKeys = {
-  PrintDataDir: "PrintDataDir"
+  PrintDataDir: "PrintDataDir",
+  TransmitFile: "TransmitFile",
 }
 
 class ClientWrapper extends EventEmitter
@@ -96,10 +97,11 @@ class ClientWrapper extends EventEmitter
     }
   }
 
-  command(commandStr)
+  command(commandArguments)
   {
     let self = this;
-    self.client.write(commandStr);
+    const commandMessage = commandArguments.join(" ");
+    self.client.write(commandMessage);
   }
 
   setConnection(connectionState)
