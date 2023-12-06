@@ -16,7 +16,6 @@ DATADIR = "data/"
 FILENAME = DATADIR + ctime(time()) + ".txt"
 print(FILENAME)
 fileList = os.listdir(DATADIR);
-file = open(FILENAME, "x")
 
 while True:
     print("Waiting for client...")
@@ -37,7 +36,10 @@ while True:
                     if data:
                         print(f"Received: {data}")
                         conn.sendall(data)
+                        
+                        file = open(FILENAME, "a")
                         file.write(data.decode('utf8'))
+                        file.close()
                         
                     try:
                         clientData = conn.recv(1024)
