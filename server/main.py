@@ -13,8 +13,9 @@ ser = serial.Serial(
 )
 
 DATADIR = "data/"
-FILENAME = DATADIR + ctime(time()) + ".txt"
-print(FILENAME)
+FILENAME = ctime(time()).replace(" ", "_")
+FULLFILEPATH = DATADIR + FILENAME + ".txt"
+print(FULLFILEPATH)
 
 while True:
     print("Waiting for client...")
@@ -36,25 +37,27 @@ while True:
                         print(f"Received: {data}")
                         conn.sendall(data)
                         
-                        file = open(FILENAME, "a")
+                        file = open(FULLFILEPATH, "a")
                         file.write(data.decode('utf8'))
                         file.close()
                         
                     try:
                         clientData = conn.recv(1024)
-                        #conn.sendall(clientData)
-                        print(clientData) 
-                        
-                        clientText = clientData.decode('utf-8')
-                        print(clientText)
-                        
-                        if clientText == "PrintDataDir":
+                        clientText = clientData.decode('utf-8').split()
+
+                        if len(clientText) == 0:
+                            break;
+
+                        elif "PrintDataDir" in clientText[0]:
                             fileList = os.listdir(DATADIR);
-                            message = "{{ 'command': '{0}','filenames': {1} }}".format(clientText, fileList)
+                            message = "{{ 'command': '{0}','filenames': {1} }}".format(clientText[0], fileList)
                             conn.sendall(message.encode('utf8'))
                             
-                        elif clientText == "":
-                            break;
+                        elif "TransmitFile" in clientText[0] and len(clientText) >= 2:
+                            print(clientText[1])
+                            #get first arg
+                            #read file
+                            #send file
                         
                     except BlockingIOError:
                         print(b"Nothing from client")
