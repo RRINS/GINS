@@ -26,11 +26,14 @@ class PiWrapper extends EventEmitter
     });
     this.client.on('data', (data) => {
       // console.log('Received: ' + data);
+      let dataString = new Buffer(data).toString();
+
       try {
-        let incomingData = JSON.parse(data);
+        let incomingData = JSON.parse(dataString.split("\'").join('\"'));
         this.emit('incomingData', incomingData);
       } catch(err) {
-        this.emit('message', data);
+        // console.log(err);
+        this.emit('message', dataString);
       }
     });
     this.client.on('close', () => {
@@ -39,6 +42,7 @@ class PiWrapper extends EventEmitter
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
+    this.command = this.command.bind(this);
     this.setConnection = this.setConnection.bind(this);
     this.setConnection(connectionStates.Disconnected);
 
@@ -54,7 +58,7 @@ class PiWrapper extends EventEmitter
       self.setConnection(connectionStates.Attempting_Connection);
       self.client.connect(9001, '169.254.26.252', () => {
           self.setConnection(connectionStates.Connected);
-          self.client.write('Hello, server! Love, Client.');
+          self.client.write('Test');
       });
     }
     else
@@ -77,6 +81,12 @@ class PiWrapper extends EventEmitter
         self.setConnection(connectionStates.Undefined);
       }
     }
+  }
+
+  command(commandStr)
+  {
+    let self = this;
+    self.client.write(commandStr);
   }
 
   setConnection(connectionState)

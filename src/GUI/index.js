@@ -12,6 +12,10 @@ Pi.addListener('incomingData', (incomingData) => {
   appendData(incomingData);
 });
 
+// Pi.addListener('message', (message) => {
+//   console.log("Heard:", message);
+// });
+
 Pi.addListener('connectionChange', (connectionStatus) => {
   console.log(connectionStatus);
   document.getElementById('connectionStatusText').innerText = connectionStatus;
