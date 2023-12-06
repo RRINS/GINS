@@ -50,7 +50,7 @@ while True:
                         print(clientText)
                         
                         if clientText == "PrintDataDir":
-                            message = "{{'filenames': {0} }}".format(fileList)
+                            message = "{{ 'command': '{0}','filenames': {1} }}".format(clientText, fileList)
                             conn.sendall(message.encode('utf8'))
                             
                         elif clientText == "":
