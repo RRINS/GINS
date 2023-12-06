@@ -12,6 +12,10 @@ const connectionStates = {
   Undefined: 4,
 }
 
+const commandKeys = {
+  PrintDataDir: "PrintDataDir"
+}
+
 class PiWrapper extends EventEmitter
 {
   constructor()  //intialize the python script and message event listeners
@@ -27,13 +31,20 @@ class PiWrapper extends EventEmitter
     this.client.on('data', (data) => {
       // console.log('Received: ' + data);
       let dataString = new Buffer(data).toString();
+      let incomingData = null;
 
       try {
-        let incomingData = JSON.parse(dataString.split("\'").join('\"'));
-        this.emit('incomingData', incomingData);
+        incomingData = JSON.parse(dataString.split("\'").join('\"'));
       } catch(err) {
         // console.log(err);
         this.emit('message', dataString);
+      }
+
+      if(incomingData.command !== undefined) {
+        this.emit(incomingData.command, incomingData);
+      }
+      else {
+        this.emit('incomingData', incomingData);
       }
     });
     this.client.on('close', () => {
@@ -101,5 +112,6 @@ class PiWrapper extends EventEmitter
 
 module.exports = {
   PiWrapper:PiWrapper,
-  connectionStates:connectionStates
+  connectionStates:connectionStates,
+  commandKeys:commandKeys
 };

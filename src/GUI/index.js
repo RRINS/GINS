@@ -1,6 +1,6 @@
 const { displayHandler } = require("../graphing/displayHandler");
 const { createGraphs, appendData } = require("../graphing/graphHandler");
-const { PiWrapper, connectionStates } = require("../interface/PiWrapper");
+const { PiWrapper, connectionStates, commandKeys } = require("../interface/PiWrapper");
 
 
 const Pi = new PiWrapper();
@@ -10,6 +10,10 @@ Pi.addListener('incomingData', (incomingData) => {
   displayHandler("gyro", incomingData);
 
   appendData(incomingData);
+});
+
+Pi.addListener(commandKeys.PrintDataDir, (commandData) => {
+  console.log("command response", commandData);
 });
 
 // Pi.addListener('message', (message) => {
