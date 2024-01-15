@@ -12,10 +12,15 @@ ser = serial.Serial(
     timeout=1,
 )
 
+
+scriptDir = os.path.dirname(os.path.abspath(__file__))
+
 DATADIR = "data/"
 FILENAME = ctime(time()).replace(" ", "_")
-FULLFILEPATH = DATADIR + FILENAME + ".txt"
+FULLFILEPATH = os.path.join(scriptDir, DATADIR + FILENAME + ".txt")
 print(FULLFILEPATH)
+print(os.path.exists(FULLFILEPATH))
+open(FULLFILEPATH, "x")
 
 while True:
     print("Waiting for client...")
@@ -31,6 +36,7 @@ while True:
             ser.reset_input_buffer()
             with conn:
                 print(f"Connected by {addr}")
+                
                 while True:
                     data = ser.readline()
                     if data:
@@ -54,10 +60,18 @@ while True:
                             conn.sendall(message.encode('utf8'))
                             
                         elif "TransmitFile" in clientText[0] and len(clientText) >= 2:
-                            print(clientText[1])
-                            #get first arg
-                            #read file
-                            #send file
+                            fileToRead = DATADIR + clientText[1]
+                            if os.path.isfile(fileToRead):
+                                fileToReadStream = open(fileToRead, 'r')
+                                fileContents = fileToReadStream.read()
+                                fileContents = fileContents.replace("\"", "").split('\n')
+                                print(fileContents)
+                                
+                                message = "{{ 'command': '{0}', 'filename': '{1}', 'contents': {2} }}".format(clientText[0], clientText[1], fileContents)
+                                conn.sendall(message.encode('utf8'))
+                                
+                            else:
+                                print("File does not exist")
                         
                     except BlockingIOError:
                         print(b"Nothing from client")
